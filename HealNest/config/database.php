@@ -64,6 +64,15 @@ return [
             ]) : [],
         ],
 
+        'mongodb' => [
+            'driver' => 'mongodb',
+            'dsn' => env('MONGO_DSN'),
+            'database' => env('DB_DATABASE'),
+            'options' => [
+                'database' => env('DB_AUTHENTICATION_DATABASE', 'admin'), // required with MongoDB Atlas
+            ],
+        ],
+
         'mariadb' => [
             'driver' => 'mariadb',
             'url' => env('DB_URL'),
