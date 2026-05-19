@@ -19,7 +19,7 @@ class AuthController extends Controller
             'email'    => 'required|email',
             'password' => 'required|min:8|confirmed',
             'age'      => 'required|integer|min:15|max:30',
-            'role'     => 'required|in:user,parent,counselor',
+            'role'     => 'required|in:user,counselor',
         ]);
 
         if (User::where('email', $request->email)->exists()) {

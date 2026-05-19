@@ -11,7 +11,7 @@
                class="border border-tan/40 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-midgreen bg-cream">
         <select name="role" class="border border-tan/40 rounded-lg px-4 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-midgreen bg-cream">
             <option value="">All Roles</option>
-            @foreach(['user','parent','counselor','admin'] as $r)
+            @foreach(['user','counselor','admin'] as $r)
                 <option value="{{ $r }}" {{ request('role') === $r ? 'selected' : '' }}>{{ ucfirst($r) }}</option>
             @endforeach
         </select>
@@ -50,7 +50,7 @@
                         <form method="POST" action="{{ route('admin.users.role', $user->_id) }}" class="flex items-center gap-2">
                             @csrf
                             <select name="role" class="border border-tan/30 rounded px-2 py-1 text-xs bg-cream">
-                                @foreach(['user','parent','counselor','admin'] as $r)
+                                @foreach(['user','counselor','admin'] as $r)
                                     <option value="{{ $r }}" {{ $user->role === $r ? 'selected' : '' }}>{{ ucfirst($r) }}</option>
                                 @endforeach
                             </select>
