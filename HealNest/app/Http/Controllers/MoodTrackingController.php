@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\MoodLog;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -22,10 +23,12 @@ class MoodTrackingController extends Controller
         ]);
 
         MoodLog::create([
-            'user_id'   => (string) Auth::id(),
-            'mood'      => $data['mood'],
+            'user_id'   => (string) Auth::user()->_id,
+            'mood'      => (int) $data['mood'],
             'note'      => $data['note'] ?? null,
-            'tags'      => $data['tags'] ? array_map('trim', explode(',', $data['tags'])) : [],
+            'tags'      => isset($data['tags']) && $data['tags']
+                            ? array_map('trim', explode(',', $data['tags']))
+                            : [],
             'logged_at' => now(),
         ]);
 
@@ -34,13 +37,14 @@ class MoodTrackingController extends Controller
 
     public function history()
     {
-        $userId = (string) Auth::id();
-        $logs   = MoodLog::where('user_id', $userId)
+        $userId = (string) Auth::user()->_id;
+
+        $logs = MoodLog::where('user_id', $userId)
             ->orderBy('logged_at', 'desc')->limit(30)->get();
 
-        $labels = $logs->sortBy('logged_at')
-            ->pluck('logged_at')->map(fn($d) => \Carbon\Carbon::parse($d)->format('M d'));
-        $data   = $logs->sortBy('logged_at')->pluck('mood');
+        $sorted = $logs->sortBy('logged_at');
+        $labels = $sorted->pluck('logged_at')->map(fn($d) => Carbon::parse($d)->format('M d'));
+        $data   = $sorted->pluck('mood');
 
         return view('mood.history', compact('logs', 'labels', 'data'));
     }

@@ -42,10 +42,9 @@ class AssessmentController extends Controller
     {
         $type      = strtoupper($type);
         $questions = $type === 'PHQ9' ? $this->phq9 : $this->gad7;
-        $count     = count($questions);
 
         $rules = [];
-        for ($i = 0; $i < $count; $i++) {
+        foreach (array_keys($questions) as $i) {
             $rules["q{$i}"] = 'required|integer|min:0|max:3';
         }
         $validated = $request->validate($rules);
@@ -53,9 +52,10 @@ class AssessmentController extends Controller
         $responses = array_values($validated);
         $score     = array_sum($responses);
         $risk      = Assessment::calcRisk($type, $score);
+        $userId    = (string) Auth::user()->_id;
 
         $assessment = Assessment::create([
-            'user_id'    => (string) Auth::id(),
+            'user_id'    => $userId,
             'type'       => $type,
             'responses'  => $responses,
             'score'      => $score,
@@ -65,8 +65,8 @@ class AssessmentController extends Controller
 
         if ($score >= 10) {
             Alert::create([
-                'user_id'      => (string) Auth::id(),
-                'triggered_by' => $assessment->_id,
+                'user_id'      => $userId,
+                'triggered_by' => (string) $assessment->_id,
                 'risk_level'   => $risk,
                 'status'       => 'open',
             ]);

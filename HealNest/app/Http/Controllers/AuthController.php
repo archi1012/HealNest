@@ -14,21 +14,29 @@ class AuthController extends Controller
 
     public function register(Request $request)
     {
-        $data = $request->validate([
+        $request->validate([
             'name'     => 'required|string|max:100',
-            'email'    => 'required|email|unique:users',
+            'email'    => 'required|email',
             'password' => 'required|min:8|confirmed',
             'age'      => 'required|integer|min:15|max:30',
             'role'     => 'required|in:user,parent,counselor',
         ]);
 
-        $data['password'] = Hash::make($data['password']);
-        $data['role'] = $data['role'] ?? 'user';
+        if (User::where('email', $request->email)->exists()) {
+            return back()->withErrors(['email' => 'Email already registered.'])->withInput();
+        }
 
-        $user = User::create($data);
+        $user = User::create([
+            'name'     => $request->name,
+            'email'    => $request->email,
+            'password' => Hash::make($request->password),
+            'age'      => (int) $request->age,
+            'role'     => $request->role,
+        ]);
+
         Auth::login($user);
 
-        return redirect()->route('dashboard')->with('success', 'Welcome to Mindful Roots!');
+        return redirect()->route('dashboard')->with('success', 'Welcome to HealNest!');
     }
 
     public function login(Request $request)

@@ -12,8 +12,8 @@ class MoodLog extends Model
     protected $fillable = ['user_id', 'mood', 'note', 'tags', 'logged_at'];
 
     protected $casts = [
-        'mood' => 'integer',
-        'tags' => 'array',
+        'mood'      => 'integer',
+        'tags'      => 'array',
         'logged_at' => 'datetime',
     ];
 }

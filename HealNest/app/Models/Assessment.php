@@ -13,21 +13,12 @@ class Assessment extends Model
 
     protected $casts = [
         'responses' => 'array',
-        'score' => 'integer',
-        'taken_at' => 'datetime',
+        'score'     => 'integer',
+        'taken_at'  => 'datetime',
     ];
 
     public static function calcRisk(string $type, int $score): string
     {
-        if ($type === 'PHQ9') {
-            return match(true) {
-                $score <= 4  => 'minimal',
-                $score <= 9  => 'mild',
-                $score <= 14 => 'moderate',
-                default      => 'severe',
-            };
-        }
-        // GAD-7
         return match(true) {
             $score <= 4  => 'minimal',
             $score <= 9  => 'mild',

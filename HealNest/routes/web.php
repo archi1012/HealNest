@@ -30,10 +30,10 @@ Route::middleware('auth')->group(function () {
     Route::post('/mood/log', [MoodTrackingController::class, 'store'])->name('mood.store');
     Route::get('/mood/history', [MoodTrackingController::class, 'history'])->name('mood.history');
 
-    // Assessment
+    // Assessment — result route MUST be before {type} to avoid conflict
+    Route::get('/assessment/result/{id}', [AssessmentController::class, 'result'])->name('assessment.result');
     Route::get('/assessment/{type}', [AssessmentController::class, 'show'])->name('assessment.show');
     Route::post('/assessment/{type}', [AssessmentController::class, 'store'])->name('assessment.store');
-    Route::get('/assessment/result/{id}', [AssessmentController::class, 'result'])->name('assessment.result');
 
     // Resources
     Route::get('/resources', [ResourcesController::class, 'index'])->name('resources');

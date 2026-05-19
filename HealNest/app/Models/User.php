@@ -17,17 +17,13 @@ class User extends Authenticatable
 
     protected $hidden = ['password', 'remember_token'];
 
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed',
-            'age' => 'integer',
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'age'               => 'integer',
+    ];
 
-    public function isAdmin(): bool { return $this->role === 'admin'; }
+    public function isAdmin(): bool     { return $this->role === 'admin'; }
     public function isCounselor(): bool { return $this->role === 'counselor'; }
-    public function isParent(): bool { return $this->role === 'parent'; }
-    public function isUser(): bool { return $this->role === 'user'; }
+    public function isParent(): bool    { return $this->role === 'parent'; }
+    public function isUser(): bool      { return $this->role === 'user'; }
 }
