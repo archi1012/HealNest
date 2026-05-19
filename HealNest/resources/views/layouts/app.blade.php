@@ -51,8 +51,7 @@
             <x-nav-item href="{{ route('dashboard') }}" icon="🏠" label="Dashboard"/>
             <x-nav-item href="{{ route('mood.create') }}" icon="😊" label="Log Mood"/>
             <x-nav-item href="{{ route('mood.history') }}" icon="📈" label="Progress"/>
-            <x-nav-item href="{{ route('assessment.show', 'PHQ9') }}" icon="📋" label="PHQ-9"/>
-            <x-nav-item href="{{ route('assessment.show', 'GAD7') }}" icon="📋" label="GAD-7"/>
+            <x-nav-item href="{{ route('assessment.index') }}" icon="🧠" label="Assessment"/>
             <x-nav-item href="{{ route('resources') }}" icon="📚" label="Resources"/>
 
             @if(auth()->user()?->isCounselor() || auth()->user()?->isAdmin())

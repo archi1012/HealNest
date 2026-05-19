@@ -49,13 +49,9 @@
             <div class="bg-white rounded-xl p-5 shadow-sm border border-tan/20">
                 <h3 class="font-heading text-forest font-semibold mb-3">Quick Assessment</h3>
                 <div class="space-y-2">
-                    <a href="{{ route('assessment.show', 'PHQ9') }}"
+                    <a href="{{ route('assessment.index') }}"
                        class="block text-center border border-forest text-forest py-2 rounded-lg text-sm hover:bg-forest hover:text-white transition-colors">
-                        PHQ-9 (Depression)
-                    </a>
-                    <a href="{{ route('assessment.show', 'GAD7') }}"
-                       class="block text-center border border-midgreen text-midgreen py-2 rounded-lg text-sm hover:bg-midgreen hover:text-white transition-colors">
-                        GAD-7 (Anxiety)
+                        Take Assessment
                     </a>
                 </div>
             </div>

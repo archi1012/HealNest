@@ -31,9 +31,10 @@ Route::middleware('auth')->group(function () {
     Route::get('/mood/history', [MoodTrackingController::class, 'history'])->name('mood.history');
 
     // Assessment — result route MUST be before {type} to avoid conflict
-    Route::get('/assessment/result/{id}', [AssessmentController::class, 'result'])->name('assessment.result');
-    Route::get('/assessment/{type}', [AssessmentController::class, 'show'])->name('assessment.show');
-    Route::post('/assessment/{type}', [AssessmentController::class, 'store'])->name('assessment.store');
+    Route::get('/assessment',            [AssessmentController::class, 'index'])->name('assessment.index');
+    Route::get('/assessment/result/{id}',[AssessmentController::class, 'result'])->name('assessment.result');
+    Route::get('/assessment/{type}',     [AssessmentController::class, 'show'])->name('assessment.show');
+    Route::post('/assessment/{type}',    [AssessmentController::class, 'store'])->name('assessment.store');
 
     // Resources
     Route::get('/resources', [ResourcesController::class, 'index'])->name('resources');

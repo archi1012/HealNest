@@ -1,20 +1,49 @@
 @extends('layouts.app')
 @section('title', $type . ' Assessment – HealNest')
-@section('page-title', $type === 'PHQ9' ? 'PHQ-9 Depression Screening' : 'GAD-7 Anxiety Screening')
+@section('page-title', match($type) {
+    'PHQ9'    => 'PHQ-9 Depression Screening',
+    'GAD7'    => 'GAD-7 Anxiety Screening',
+    default   => 'General Wellbeing Assessment',
+})
 
 @section('content')
 <div class="max-w-2xl mx-auto">
+
+    {{-- Back link --}}
+    <a href="{{ route('assessment.index') }}"
+       class="inline-flex items-center gap-2 text-sm text-midgreen hover:underline mb-4">
+        ← Back to Assessments
+    </a>
+
     <div class="bg-white rounded-2xl shadow-sm border border-tan/20 p-8">
+
+        {{-- Header badge --}}
+        <div class="flex items-center gap-3 mb-5">
+            <span class="text-3xl">
+                {{ $type === 'PHQ9' ? '😔' : ($type === 'GAD7' ? '😰' : '🌱') }}
+            </span>
+            <div>
+                <h2 class="font-heading font-bold text-forest text-xl">
+                    {{ $type === 'PHQ9' ? 'PHQ-9 Depression Screening' : ($type === 'GAD7' ? 'GAD-7 Anxiety Screening' : 'General Wellbeing Check') }}
+                </h2>
+                <p class="text-xs text-gray-400">{{ count($questions) }} questions &bull; ~{{ ceil(count($questions) / 4) }} minutes</p>
+            </div>
+        </div>
 
         <div class="mb-6 p-4 bg-lightgreen/10 border border-lightgreen/30 rounded-xl">
             <p class="text-sm text-forest">
-                <strong>Instructions:</strong> Over the last 2 weeks, how often have you been bothered by the following problems?
-                Rate each: <strong>0</strong> = Not at all, <strong>1</strong> = Several days,
-                <strong>2</strong> = More than half the days, <strong>3</strong> = Nearly every day.
+                <strong>Instructions:</strong>
+                @if($type === 'GENERAL')
+                    Over the last 2 weeks, how often have the following been true for you?
+                @else
+                    Over the last 2 weeks, how often have you been bothered by the following?
+                @endif
+                &nbsp; <strong>0</strong> = Not at all &bull; <strong>1</strong> = Several days &bull;
+                <strong>2</strong> = More than half the days &bull; <strong>3</strong> = Nearly every day
             </p>
         </div>
 
-        <form method="POST" action="{{ route('assessment.store', $type) }}" x-data class="space-y-5">
+        <form method="POST" action="{{ route('assessment.store', $type) }}" class="space-y-4">
             @csrf
 
             @foreach($questions as $i => $question)
@@ -38,7 +67,7 @@
             @endforeach
 
             <button type="submit"
-                    class="w-full bg-forest text-white py-3 rounded-xl font-semibold hover:bg-midgreen transition-colors mt-4">
+                    class="w-full bg-forest text-white py-3 rounded-xl font-semibold hover:bg-midgreen transition-colors mt-2">
                 Submit Assessment
             </button>
         </form>

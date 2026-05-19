@@ -31,17 +31,51 @@ class AssessmentController extends Controller
         'Feeling afraid, as if something awful might happen',
     ];
 
+    private array $general = [
+        'I have felt happy and positive about life',
+        'I have been able to manage stress well',
+        'I have been sleeping well and feeling rested',
+        'I have felt connected to people around me',
+        'I have had energy to do things I enjoy',
+        'I have felt calm and at ease',
+        'I have been able to concentrate on tasks',
+        'I have felt good about myself',
+        'I have been able to cope with daily challenges',
+        'Overall, I feel my mental well-being is good',
+    ];
+
+    private function getQuestions(string $type): array
+    {
+        return match($type) {
+            'PHQ9'    => $this->phq9,
+            'GAD7'    => $this->gad7,
+            'GENERAL' => $this->general,
+            default   => $this->general,
+        };
+    }
+
+    public function index()
+    {
+        $userId      = (string) Auth::user()->_id;
+        $lastTaken   = Assessment::where('user_id', $userId)
+            ->orderBy('taken_at', 'desc')
+            ->get()
+            ->keyBy('type');
+
+        return view('assessment.index', compact('lastTaken'));
+    }
+
     public function show(string $type)
     {
         $type      = strtoupper($type);
-        $questions = $type === 'PHQ9' ? $this->phq9 : $this->gad7;
+        $questions = $this->getQuestions($type);
         return view('assessment.show', compact('type', 'questions'));
     }
 
     public function store(Request $request, string $type)
     {
         $type      = strtoupper($type);
-        $questions = $type === 'PHQ9' ? $this->phq9 : $this->gad7;
+        $questions = $this->getQuestions($type);
 
         $rules = [];
         foreach (array_keys($questions) as $i) {
