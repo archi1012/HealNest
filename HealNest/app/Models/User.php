@@ -13,7 +13,7 @@ class User extends Authenticatable
     protected $connection = 'mongodb';
     protected $collection = 'users';
 
-    protected $fillable = ['name', 'email', 'password', 'age', 'role'];
+    protected $fillable = ['name', 'email', 'password', 'age', 'role', 'parent_id'];
 
     protected $hidden = ['password', 'remember_token'];
 
@@ -24,5 +24,6 @@ class User extends Authenticatable
 
     public function isAdmin(): bool     { return $this->role === 'admin'; }
     public function isCounselor(): bool { return $this->role === 'counselor'; }
+    public function isParent(): bool    { return $this->role === 'parent'; }
     public function isUser(): bool      { return $this->role === 'user'; }
 }

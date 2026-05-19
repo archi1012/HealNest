@@ -31,6 +31,7 @@
         <label class="block text-sm font-medium text-gray-700 mb-1">Role</label>
         <select name="role" class="w-full border border-tan/40 rounded-lg px-4 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-midgreen bg-cream">
             <option value="user" {{ old('role') === 'user' ? 'selected' : '' }}>User (Self-tracking)</option>
+            <option value="parent" {{ old('role') === 'parent' ? 'selected' : '' }}>Parent</option>
             <option value="counselor" {{ old('role') === 'counselor' ? 'selected' : '' }}>Counselor</option>
         </select>
     </div>
