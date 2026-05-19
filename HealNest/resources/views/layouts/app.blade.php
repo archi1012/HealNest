@@ -63,6 +63,8 @@
             @if(auth()->user()?->isAdmin())
                 <x-nav-item href="{{ route('admin.index') }}" icon="⚙️" label="Admin"/>
                 <x-nav-item href="{{ route('admin.users') }}" icon="👥" label="Users"/>
+                <x-nav-item href="{{ route('admin.counselors') }}" icon="👩‍⚕️" label="Counselors"/>
+                <x-nav-item href="{{ route('admin.reports') }}" icon="📊" label="Reports"/>
             @endif
         </nav>
 

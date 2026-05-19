@@ -49,8 +49,22 @@ Route::middleware(['auth', 'role:counselor,admin'])->prefix('counselor')->name('
 
 // Admin routes
 Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/', [AdminController::class, 'index'])->name('index');
-    Route::get('/users', [AdminController::class, 'users'])->name('users');
-    Route::post('/users/{id}/role', [AdminController::class, 'updateRole'])->name('users.role');
-    Route::delete('/users/{id}', [AdminController::class, 'deleteUser'])->name('users.delete');
+    Route::get('/',                          [AdminController::class, 'index'])->name('index');
+
+    // User CRUD
+    Route::get('/users',                     [AdminController::class, 'users'])->name('users');
+    Route::get('/users/create',              [AdminController::class, 'createUser'])->name('users.create');
+    Route::post('/users',                    [AdminController::class, 'storeUser'])->name('users.store');
+    Route::get('/users/{id}/edit',           [AdminController::class, 'editUser'])->name('users.edit');
+    Route::put('/users/{id}',                [AdminController::class, 'updateUser'])->name('users.update');
+    Route::delete('/users/{id}',             [AdminController::class, 'deleteUser'])->name('users.delete');
+    Route::post('/users/{id}/role',          [AdminController::class, 'updateRole'])->name('users.role');
+
+    // Counselor management
+    Route::get('/counselors',                [AdminController::class, 'counselors'])->name('counselors');
+    Route::post('/counselors/{id}/promote',  [AdminController::class, 'promoteToCounselor'])->name('counselors.promote');
+    Route::post('/counselors/{id}/demote',   [AdminController::class, 'demoteCounselor'])->name('counselors.demote');
+
+    // Reports
+    Route::get('/reports',                   [AdminController::class, 'reports'])->name('reports');
 });
