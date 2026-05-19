@@ -18,6 +18,38 @@ class CounselorController extends Controller
         return view('counselor.index', compact('alerts', 'users'));
     }
 
+    /**
+     * Show a simple directory of available counselors (dummy data).
+     */
+    public function connect()
+    {
+        $counselors = collect([
+            [
+                'id' => 'c1',
+                'name' => 'Dr. Maya Alvarez',
+                'specialty' => 'Depression & Anxiety',
+                'bio' => 'Clinical counselor with 8 years experience supporting young adults.',
+                'phone' => '+10000000001'
+            ],
+            [
+                'id' => 'c2',
+                'name' => 'Samuel Okoye',
+                'specialty' => 'Adolescent Counseling',
+                'bio' => 'Specialist in adolescent mental health and family dynamics.',
+                'phone' => '+10000000002'
+            ],
+            [
+                'id' => 'c3',
+                'name' => 'Aisha Rahman',
+                'specialty' => 'Crisis Support',
+                'bio' => 'Experienced in short-term crisis intervention and safety planning.',
+                'phone' => '+10000000003'
+            ],
+        ]);
+
+        return view('counselor.connect', compact('counselors'));
+    }
+
     public function userDetail(string $userId)
     {
         $user        = User::findOrFail($userId);

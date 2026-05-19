@@ -37,6 +37,9 @@ Route::middleware('auth')->group(function () {
 
     // Resources
     Route::get('/resources', [ResourcesController::class, 'index'])->name('resources');
+
+    // Connect to counselor (public for authenticated users)
+    Route::get('/connect', [CounselorController::class, 'connect'])->name('connect.counselor');
 });
 
 // Counselor routes
