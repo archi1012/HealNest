@@ -83,37 +83,7 @@
     </div>
     @endif
 
-    {{-- Connect to Counselor --}}
-    <div class="bg-white rounded-xl p-6 shadow-sm border border-tan/20">
-        <div class="flex items-center justify-between mb-4">
-            <h3 class="font-heading text-forest font-semibold text-lg">Connect to a Counselor</h3>
-            <a href="{{ route('connect.counselor') }}" class="text-sm text-midgreen underline">See all</a>
-        </div>
-
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-            {{-- Show a few sample/dummy counselor cards inline --}}
-            @php
-                $sample = [
-                    ['name' => 'Dr. Maya Alvarez', 'specialty' => 'Depression & Anxiety', 'phone' => '+10000000001'],
-                    ['name' => 'Samuel Okoye', 'specialty' => 'Adolescent Counseling', 'phone' => '+10000000002'],
-                    ['name' => 'Aisha Rahman', 'specialty' => 'Crisis Support', 'phone' => '+10000000003'],
-                ];
-            @endphp
-            @foreach($sample as $c)
-            <div class="border border-tan/20 rounded-lg p-3 flex items-start gap-3">
-                <div class="w-10 h-10 rounded-full bg-midgreen flex items-center justify-center text-white font-semibold">{{ strtoupper(substr($c['name'],0,1)) }}</div>
-                <div class="flex-1">
-                    <p class="font-medium text-forest">{{ $c['name'] }}</p>
-                    <p class="text-xs text-gray-500">{{ $c['specialty'] }}</p>
-                </div>
-                <div>
-                    <a href="https://api.whatsapp.com/send?phone={{ urlencode($c['phone']) }}&text={{ urlencode('Hello, I would like to connect with a counselor from HealNest.') }}" target="_blank" rel="noopener noreferrer"
-                       class="text-xs bg-forest text-white px-3 py-1.5 rounded-lg hover:bg-midgreen transition-colors">Chat</a>
-                </div>
-            </div>
-            @endforeach
-        </div>
-    </div>
+    {{-- Connect section removed — use the dedicated Connect page in the sidebar --}}
 
 </div>
 

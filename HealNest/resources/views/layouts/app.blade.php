@@ -53,6 +53,7 @@
             <x-nav-item href="{{ route('mood.history') }}" icon="📈" label="Progress"/>
             <x-nav-item href="{{ route('assessment.index') }}" icon="🧠" label="Assessment"/>
             <x-nav-item href="{{ route('resources') }}" icon="📚" label="Resources"/>
+            <x-nav-item href="{{ route('connect.counselor') }}" icon="👩‍⚕️" label="Contact Counselor"/>
 
             @if(auth()->user()?->isCounselor() || auth()->user()?->isAdmin())
                 <div class="border-t border-midgreen my-2"></div>
