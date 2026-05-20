@@ -110,4 +110,6 @@ new Chart(document.getElementById('moodChart'), {
 });
 </script>
 @endif
+
+
 @endsection
