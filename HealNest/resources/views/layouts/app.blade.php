@@ -73,7 +73,6 @@
                 <x-nav-item href="{{ route('admin.index') }}" icon="⚙️" label="Admin"/>
                 <x-nav-item href="{{ route('admin.users') }}" icon="👥" label="Users"/>
                 <x-nav-item href="{{ route('admin.resources.index') }}" icon="📚" label="Resources"/>
-                <x-nav-item href="{{ route('admin.ai.index') }}" icon="🤖" label="Claude AI"/>
                 <x-nav-item href="{{ route('admin.counselors') }}" icon="👩‍⚕️" label="Counselors"/>
                 <x-nav-item href="{{ route('admin.reports') }}" icon="📊" label="Reports"/>
             @endif

@@ -86,10 +86,6 @@
                class="border border-tan text-earthbrown px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-tan hover:text-forest transition-colors">
                 📚 Manage Resources
             </a>
-            <a href="{{ route('admin.ai.index') }}"
-               class="border border-purple-300 text-purple-700 px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-purple-100 transition-colors">
-                🤖 Claude AI
-            </a>
             <a href="{{ route('admin.reports') }}"
                class="border border-midgreen text-midgreen px-5 py-2.5 rounded-xl text-sm font-semibold hover:bg-midgreen hover:text-white transition-colors">
                 📊 View Reports

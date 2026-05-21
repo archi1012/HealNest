@@ -2,7 +2,6 @@
 
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\AssessmentController;
-use App\Http\Controllers\ClaudeController;
 use App\Http\Controllers\AuthController;
 use App\Http\Controllers\AppointmentController;
 use App\Http\Controllers\CounselorController;
@@ -68,11 +67,6 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:counselor,admin'])->group(function () {
     Route::get('/appointments/manage', [AppointmentController::class, 'manage'])->name('appointments.manage');
     Route::put('/appointments/{id}/status', [AppointmentController::class, 'updateStatus'])->name('appointments.status');
-});
-
-Route::middleware(['auth', 'role:admin'])->prefix('admin')->name('admin.')->group(function () {
-    Route::get('/ai', [ClaudeController::class, 'index'])->name('ai.index');
-    Route::post('/ai/analyze', [ClaudeController::class, 'analyze'])->name('ai.analyze');
 });
 
 // Counselor routes
