@@ -5,7 +5,7 @@
     <meta name="viewport" content="width=device-width,initial-scale=1" />
     <title>HealNest</title>
     <link rel="icon" href="/favicon.ico">
-    <link rel="stylesheet" href="/build/assets/app-BIKS_Lxc.css">
+    <meta id="vite-manifest-path" content="/build/manifest.json">
   </head>
   <body>
     <div id="app">
@@ -23,8 +23,38 @@
         } else {
           document.getElementById('backend-link').style.display = 'none';
         }
+
+        // Dynamically load Vite build assets using manifest.json so hashed filenames resolve correctly.
+        var manifestPath = document.getElementById('vite-manifest-path').content || '/build/manifest.json';
+        fetch(manifestPath).then(function(res){
+          if(!res.ok) throw new Error('No manifest');
+          return res.json();
+        }).then(function(manifest){
+          // Find the JS and CSS entries from the manifest
+          var jsEntry, cssEntry;
+          for(var key in manifest){
+            var entry = manifest[key];
+            if(entry.isEntry){
+              if(entry.file && entry.file.endsWith('.js')) jsEntry = '/build/' + entry.file;
+              if(entry.file && entry.file.endsWith('.css')) cssEntry = '/build/' + entry.file;
+            }
+          }
+          if(cssEntry){
+            var l = document.createElement('link');
+            l.rel = 'stylesheet';
+            l.href = cssEntry;
+            document.head.appendChild(l);
+          }
+          if(jsEntry){
+            var s = document.createElement('script');
+            s.type = 'module';
+            s.src = jsEntry;
+            document.body.appendChild(s);
+          }
+        }).catch(function(){
+          // manifest missing — silently fail (page will show basic message)
+        });
       })();
     </script>
-    <script type="module" src="/build/assets/app-UyRVujZY.js"></script>
   </body>
 </html>
