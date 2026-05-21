@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <title>HealNest</title>
+    <link rel="icon" href="/favicon.ico">
+    <link rel="stylesheet" href="/build/assets/app-BIKS_Lxc.css">
+  </head>
+  <body>
+    <div id="app">
+      <h1>HealNest</h1>
+      <p>If you see this page on Vercel, the static frontend is deployed. The full Laravel backend must be hosted separately.</p>
+      <p><a id="backend-link" href="#">Open backend</a></p>
+    </div>
+
+    <script>
+      // Try to link to an API URL if available via environment replacement at build time.
+      (function(){
+        var api = '%VITE_API_BASE_URL%';
+        if(api && api !== '%VITE_API_BASE_URL%'){
+          document.getElementById('backend-link').href = api;
+        } else {
+          document.getElementById('backend-link').style.display = 'none';
+        }
+      })();
+    </script>
+    <script type="module" src="/build/assets/app-UyRVujZY.js"></script>
+  </body>
+</html>
