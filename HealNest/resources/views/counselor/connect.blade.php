@@ -5,7 +5,10 @@
 @section('content')
 <div class="space-y-6">
     <div class="bg-white rounded-2xl shadow-sm border border-tan/20 p-6">
-        <p class="text-sm text-gray-600">If you'd like to talk to someone, you can chat directly with a counselor via WhatsApp. Click "Chat" to open WhatsApp (web or mobile). These are sample counselor profiles — replace with real data in admin.</p>
+        <p class="text-sm text-gray-600">If you'd like to talk to someone, you can message a counselor inside HealNest or still use WhatsApp as a quick fallback.</p>
+        <div class="mt-4">
+            <a href="{{ route('messages.index') }}" class="inline-flex items-center bg-forest text-white px-4 py-2 rounded-lg text-sm font-semibold hover:bg-midgreen transition-colors">Open Messages</a>
+        </div>
     </div>
 
     <div class="grid grid-cols-1 md:grid-cols-3 gap-4">

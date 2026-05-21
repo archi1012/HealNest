@@ -31,6 +31,10 @@
     </button>
 </form>
 
+<p class="text-center text-sm text-gray-500 mt-4">
+    <a href="{{ route('password.request') }}" class="text-midgreen font-semibold hover:underline">Forgot your password?</a>
+</p>
+
 {{-- Quick Login Buttons --}}
 <div class="mt-6">
     <div class="relative flex items-center gap-2 mb-3">

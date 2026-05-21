@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Resource;
+
 class ResourcesController extends Controller
 {
     public function index()
     {
-        $resources = [
+        $resources = Resource::orderBy('created_at', 'desc')->get();
+
+        if ($resources->isNotEmpty()) {
+            return view('resources.index', compact('resources'));
+        }
+
+        $resources = collect([
             ['title' => 'Breathing Exercises', 'category' => 'Coping', 'icon' => '🌬️',
              'desc'  => 'Simple 4-7-8 breathing to calm anxiety in minutes.'],
             ['title' => 'Grounding Techniques', 'category' => 'Coping', 'icon' => '🌱',
@@ -23,7 +31,8 @@ class ResourcesController extends Controller
              'desc'  => 'A beginner\'s guide to daily mindfulness practice.'],
             ['title' => 'Crisis Helplines', 'category' => 'Emergency', 'icon' => '📞',
              'desc'  => 'Immediate support contacts available 24/7.'],
-        ];
+        ]);
+
         return view('resources.index', compact('resources'));
     }
 }

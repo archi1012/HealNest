@@ -48,4 +48,71 @@ class MoodTrackingController extends Controller
 
         return view('mood.history', compact('logs', 'labels', 'data'));
     }
+
+    public function analytics()
+    {
+        $userId = (string) Auth::user()->_id;
+
+        $logs = MoodLog::where('user_id', $userId)
+            ->orderBy('logged_at', 'asc')
+            ->get();
+
+        $last7Days = MoodLog::where('user_id', $userId)
+            ->where('logged_at', '>=', Carbon::now()->subDays(6)->startOfDay())
+            ->orderBy('logged_at', 'asc')
+            ->get();
+
+        $last30Days = MoodLog::where('user_id', $userId)
+            ->where('logged_at', '>=', Carbon::now()->subDays(29)->startOfDay())
+            ->orderBy('logged_at', 'asc')
+            ->get();
+
+        $labels = $last30Days->map(fn ($log) => Carbon::parse($log->logged_at)->format('M d'));
+        $moodData = $last30Days->pluck('mood');
+
+        $averageMood = $logs->avg('mood') ? round($logs->avg('mood'), 1) : 0;
+        $weeklyAverage = $last7Days->avg('mood') ? round($last7Days->avg('mood'), 1) : 0;
+        $bestMood = $logs->max('mood') ?? 0;
+        $worstMood = $logs->min('mood') ?? 0;
+        $latestMood = $logs->last()->mood ?? null;
+        $moodCount = $logs->count();
+
+        $trend = $last7Days->count() >= 2
+            ? round((float) $last7Days->last()->mood - (float) $last7Days->first()->mood, 1)
+            : 0;
+
+        $distribution = collect([1, 2, 3, 4, 5])->mapWithKeys(function ($level) use ($logs) {
+            return [$level => $logs->where('mood', $level)->count()];
+        });
+
+        $tagCounts = $logs
+            ->pluck('tags')
+            ->flatten()
+            ->filter()
+            ->map(fn ($tag) => strtolower(trim($tag)))
+            ->countBy()
+            ->sortDesc()
+            ->take(8);
+
+        $peakDates = $logs
+            ->where('mood', $bestMood)
+            ->map(fn ($log) => Carbon::parse($log->logged_at)->format('M d, Y'))
+            ->values();
+
+        return view('mood.analytics', compact(
+            'logs',
+            'labels',
+            'moodData',
+            'averageMood',
+            'weeklyAverage',
+            'bestMood',
+            'worstMood',
+            'latestMood',
+            'moodCount',
+            'trend',
+            'distribution',
+            'tagCounts',
+            'peakDates'
+        ));
+    }
 }

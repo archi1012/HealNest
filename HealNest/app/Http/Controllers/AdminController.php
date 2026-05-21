@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Alert;
 use App\Models\Assessment;
 use App\Models\MoodLog;
+use App\Models\Resource;
 use App\Models\User;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -206,5 +207,80 @@ class AdminController extends Controller
             'period', 'newUsers', 'newAssessments', 'newMoodLogs',
             'newAlerts', 'highRiskCount', 'recentAssessments', 'recentAlerts'
         ));
+    }
+
+    // ─── Resource Management ───────────────────────────────────────────────
+
+    public function resources(Request $request)
+    {
+        $query = Resource::query();
+
+        if ($request->filled('search')) {
+            $search = $request->search;
+            $query->where(function ($builder) use ($search) {
+                $builder->where('title', 'like', '%' . $search . '%')
+                        ->orWhere('category', 'like', '%' . $search . '%')
+                        ->orWhere('desc', 'like', '%' . $search . '%');
+            });
+        }
+
+        if ($request->filled('category')) {
+            $query->where('category', $request->category);
+        }
+
+        $resources = $query->orderBy('created_at', 'desc')->paginate(12);
+        $categories = Resource::orderBy('category')->pluck('category')->filter()->unique()->values();
+
+        return view('admin.resources.index', compact('resources', 'categories'));
+    }
+
+    public function createResource()
+    {
+        return view('admin.resources.create');
+    }
+
+    public function storeResource(Request $request)
+    {
+        $validated = $request->validate([
+            'title' => 'required|string|max:120',
+            'category' => 'required|string|max:80',
+            'icon' => 'required|string|max:10',
+            'desc' => 'required|string|max:500',
+            'external_url' => 'nullable|url|max:255',
+        ]);
+
+        Resource::create($validated);
+
+        return redirect()->route('admin.resources.index')->with('success', 'Resource created successfully.');
+    }
+
+    public function editResource(string $id)
+    {
+        $resource = Resource::findOrFail($id);
+        return view('admin.resources.edit', compact('resource'));
+    }
+
+    public function updateResource(Request $request, string $id)
+    {
+        $resource = Resource::findOrFail($id);
+
+        $validated = $request->validate([
+            'title' => 'required|string|max:120',
+            'category' => 'required|string|max:80',
+            'icon' => 'required|string|max:10',
+            'desc' => 'required|string|max:500',
+            'external_url' => 'nullable|url|max:255',
+        ]);
+
+        $resource->update($validated);
+
+        return redirect()->route('admin.resources.index')->with('success', 'Resource updated successfully.');
+    }
+
+    public function deleteResource(string $id)
+    {
+        Resource::findOrFail($id)->delete();
+
+        return back()->with('success', 'Resource deleted successfully.');
     }
 }

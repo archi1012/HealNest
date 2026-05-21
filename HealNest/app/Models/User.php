@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use MongoDB\Laravel\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use App\Notifications\HealNestResetPassword;
 
 class User extends Authenticatable
 {
@@ -26,4 +27,9 @@ class User extends Authenticatable
     public function isCounselor(): bool { return $this->role === 'counselor'; }
     public function isParent(): bool    { return $this->role === 'parent'; }
     public function isUser(): bool      { return $this->role === 'user'; }
+
+    public function sendPasswordResetNotification($token): void
+    {
+        $this->notify(new HealNestResetPassword($token));
+    }
 }

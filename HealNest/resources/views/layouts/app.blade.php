@@ -34,6 +34,10 @@
     </style>
 </head>
 <body class="flex h-screen overflow-hidden">
+    @php
+        $currentUserId = auth()->check() ? (string) auth()->id() : null;
+        $unreadMessageCount = $currentUserId ? \App\Models\Message::where('recipient_id', $currentUserId)->whereNull('read_at')->count() : 0;
+    @endphp
 
     {{-- Sidebar --}}
     <aside x-data="{ open: true }" class="bg-forest text-white flex flex-col transition-all duration-300"
@@ -49,8 +53,12 @@
 
         <nav class="flex-1 py-4 space-y-1 overflow-y-auto">
             <x-nav-item href="{{ route('dashboard') }}" icon="🏠" label="Dashboard"/>
+            <x-nav-item href="{{ route('profile.show') }}" icon="👤" label="My Profile"/>
             <x-nav-item href="{{ route('mood.create') }}" icon="😊" label="Log Mood"/>
             <x-nav-item href="{{ route('mood.history') }}" icon="📈" label="Progress"/>
+            <x-nav-item href="{{ route('mood.analytics') }}" icon="📊" label="Analytics"/>
+            <x-nav-item href="{{ route('appointments.index') }}" icon="📅" label="Appointments"/>
+            <x-nav-item href="{{ route('messages.index') }}" icon="💬" label="Messages" :badge="$unreadMessageCount ?: null"/>
             <x-nav-item href="{{ route('assessment.index') }}" icon="🧠" label="Assessment"/>
             <x-nav-item href="{{ route('resources') }}" icon="📚" label="Resources"/>
             <x-nav-item href="{{ route('connect.counselor') }}" icon="👩‍⚕️" label="Contact Counselor"/>
@@ -58,11 +66,14 @@
             @if(auth()->user()?->isCounselor() || auth()->user()?->isAdmin())
                 <div class="border-t border-midgreen my-2"></div>
                 <x-nav-item href="{{ route('counselor.index') }}" icon="👩‍⚕️" label="Counselor"/>
+                <x-nav-item href="{{ route('appointments.manage') }}" icon="📅" label="Manage Appointments"/>
             @endif
 
             @if(auth()->user()?->isAdmin())
                 <x-nav-item href="{{ route('admin.index') }}" icon="⚙️" label="Admin"/>
                 <x-nav-item href="{{ route('admin.users') }}" icon="👥" label="Users"/>
+                <x-nav-item href="{{ route('admin.resources.index') }}" icon="📚" label="Resources"/>
+                <x-nav-item href="{{ route('admin.ai.index') }}" icon="🤖" label="Claude AI"/>
                 <x-nav-item href="{{ route('admin.counselors') }}" icon="👩‍⚕️" label="Counselors"/>
                 <x-nav-item href="{{ route('admin.reports') }}" icon="📊" label="Reports"/>
             @endif

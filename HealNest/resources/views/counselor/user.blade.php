@@ -19,7 +19,10 @@
             </div>
         </div>
         <div class="ml-auto">
-            <a href="{{ route('counselor.index') }}" class="text-sm text-midgreen hover:underline">← Back</a>
+            <div class="flex items-center gap-3 justify-end">
+                <a href="{{ route('messages.index', ['with' => $user->_id]) }}" class="text-sm bg-forest text-white px-4 py-2 rounded-lg hover:bg-midgreen transition-colors">Message User</a>
+                <a href="{{ route('counselor.index') }}" class="text-sm text-midgreen hover:underline">← Back</a>
+            </div>
         </div>
     </div>
 

@@ -18,6 +18,16 @@
                      sub="Requires attention"/>
     </div>
 
+    <div class="bg-white rounded-xl p-5 shadow-sm border border-tan/20 flex flex-wrap items-center justify-between gap-4">
+        <div>
+            <h3 class="font-heading text-forest font-semibold text-lg">Need a conversation with a counselor?</h3>
+            <p class="text-sm text-gray-500">Book an appointment request and let the counselor review it from their dashboard.</p>
+        </div>
+        <a href="{{ route('appointments.index') }}" class="bg-forest text-white px-5 py-2.5 rounded-lg text-sm font-semibold hover:bg-midgreen transition-colors">
+            Book Appointment
+        </a>
+    </div>
+
     {{-- Mood Bar + Quick Actions --}}
     <div class="grid md:grid-cols-3 gap-6">
         <div class="md:col-span-2 bg-white rounded-xl p-6 shadow-sm border border-tan/20">
