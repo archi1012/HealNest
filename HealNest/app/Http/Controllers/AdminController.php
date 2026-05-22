@@ -22,6 +22,7 @@ class AdminController extends Controller
         $openAlerts       = Alert::where('status', 'open')->count();
         $totalMoodLogs    = MoodLog::count();
         $totalCounselors  = User::where('role', 'counselor')->count();
+        $totalfixedusers= fixedUser::count();
 
         // Risk distribution
         $riskCounts = Assessment::count() > 0
