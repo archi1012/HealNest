@@ -3,5 +3,5 @@ services:
     name: healnest
     env: docker
     plan: starter
-    dockerfilePath: HealNest/HealNest/Dockerfile
+    dockerfilePath: HealNest/Dockerfile
     autoDeploy: true
