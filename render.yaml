@@ -1,7 +1,0 @@
-services:
-  - type: web
-    name: healnest
-    env: docker
-    plan: starter
-    dockerfilePath: HealNest/Dockerfile
-    autoDeploy: true
