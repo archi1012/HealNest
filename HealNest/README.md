@@ -57,3 +57,19 @@ If you discover a security vulnerability within Laravel, please send an e-mail t
 ## License
 
 The Laravel framework is open-sourced software licensed under the [MIT license](https://opensource.org/licenses/MIT).
+
+## Local Development
+
+Run the app locally with Laravel's built-in server:
+
+```bash
+php artisan serve --host=127.0.0.1 --port=8000
+```
+
+If you also need the frontend assets in watch mode, use:
+
+```bash
+npm run dev
+```
+
+The app is configured to read `.env` locally with MongoDB, session, cache, and queue settings already set for development.
