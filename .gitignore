@@ -1,0 +1,13 @@
+# Local environment files
+frontend/.env
+frontend/.env.local
+backend/.env
+
+# Dependency/build artifacts
+frontend/node_modules/
+frontend/.next/
+backend/node_modules/
+backend/coverage/
+
+# Local editor/OS artifacts
+.DS_Store

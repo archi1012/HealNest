@@ -1,0 +1,3 @@
+'use client';
+import AppShell from '../../components/app-shell'; import { useApi } from '../../components/use-api';
+export default function AdminPage() { const { data, error, loading } = useApi('/admin'); return <AppShell title="Admin Dashboard">{loading ? 'Loading…' : error ? <p>{error}</p> : <><div className="grid gap-4 md:grid-cols-5">{Object.entries(data.totals).map(([label, value]) => <p key={label} className="rounded bg-white p-4 capitalize shadow">{label}: <b>{value}</b></p>)}</div><section className="mt-6 rounded-xl bg-white p-5 shadow"><h2 className="font-heading text-xl">Role distribution</h2><p className="mt-3 text-sm">{Object.entries(data.roleCounts).map(([role, count]) => `${role}: ${count}`).join(' · ')}</p></section></>}</AppShell>; }
