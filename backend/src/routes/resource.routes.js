@@ -1,0 +1,1 @@
+import { Router } from 'express'; import { resources } from '../controllers/resource.controller.js'; import { requireAuth } from '../middleware/auth.middleware.js'; const router = Router(); router.get('/', requireAuth, resources); export default router;

@@ -1,0 +1,1 @@
+import { Router } from 'express'; import { createMood, moodAnalytics, moodHistory } from '../controllers/mood.controller.js'; import { requireAuth } from '../middleware/auth.middleware.js'; const router = Router(); router.use(requireAuth); router.post('/', createMood); router.get('/', moodHistory); router.get('/analytics', moodAnalytics); export default router;

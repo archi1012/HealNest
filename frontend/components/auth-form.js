@@ -1,0 +1,12 @@
+'use client';
+
+import Link from 'next/link';
+import { useRouter } from 'next/navigation';
+import { useState } from 'react';
+import { api } from '../lib/api';
+
+export default function AuthForm({ register = false }) {
+  const router = useRouter(); const [error, setError] = useState(''); const [loading, setLoading] = useState(false);
+  async function submit(event) { event.preventDefault(); setLoading(true); setError(''); const form = new FormData(event.currentTarget); const body = Object.fromEntries(form); if (register) body.age = Number(body.age); try { await api(register ? '/auth/register' : '/auth/login', { method: 'POST', body: JSON.stringify(body) }); router.replace('/dashboard'); } catch (requestError) { setError(requestError.message); } finally { setLoading(false); } }
+  return <main className="grid min-h-screen place-items-center bg-cream p-6"><form onSubmit={submit} className="w-full max-w-md space-y-4 rounded-xl bg-white p-8 shadow"><h1 className="font-heading text-3xl text-forest">{register ? 'Join HealNest' : 'Welcome back'}</h1>{error && <p className="rounded bg-red-50 p-3 text-sm text-red-700">{error}</p>}{register && <><input name="name" placeholder="Name" required maxLength="100" className="w-full rounded border p-3" /><input name="age" placeholder="Age" type="number" min="15" max="30" required className="w-full rounded border p-3" /><select name="role" required className="w-full rounded border p-3"><option value="user">User</option><option value="parent">Parent</option><option value="counselor">Counselor</option></select></>}<input name="email" placeholder="Email" type="email" required className="w-full rounded border p-3" /><input name="password" placeholder="Password" type="password" minLength="8" required className="w-full rounded border p-3" />{register && <input name="passwordConfirmation" placeholder="Confirm password" type="password" minLength="8" required className="w-full rounded border p-3" />}{!register && <label className="flex gap-2 text-sm"><input name="remember" type="checkbox" /> Remember me</label>}<button disabled={loading} className="w-full rounded bg-forest p-3 font-semibold text-white disabled:opacity-50">{loading ? 'Please wait…' : register ? 'Create account' : 'Sign in'}</button><p className="text-center text-sm">{register ? 'Already registered?' : 'New to HealNest?'} <Link className="text-midgreen underline" href={register ? '/login' : '/register'}>{register ? 'Sign in' : 'Register'}</Link></p></form></main>;
+}

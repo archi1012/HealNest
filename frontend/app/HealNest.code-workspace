@@ -1,0 +1,12 @@
+{
+	"folders": [
+		{
+			"path": "../.."
+		},
+		{
+			"name": "heal_nest",
+			"path": "../../heal_nest"
+		}
+	],
+	"settings": {}
+}
